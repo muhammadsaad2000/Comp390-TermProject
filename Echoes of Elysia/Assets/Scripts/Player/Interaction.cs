@@ -2,23 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cainos.PixelArtPlatformer_VillageProps;
+using Components.HP;
 
 public class Interaction : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        /*if (collision.tag == "Chest")
-        {
-            Debug.Log("Chest!");
-            if (Input.GetKeyDown("e"))
-            {
-                Debug.Log("Open!");
-                collision.gameObject.GetComponent<Chest>().Open();
-            }
-        }*/
+        HPStats hp = GetComponent<HPStats>();
+        if (collision.gameObject.tag == "Spikes"){
+            Debug.Log("Ouch!");
+            GetComponent<HeroKnight>().TakeDamageAnim();
+            hp.TakeDamage(10);
+        }
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    void OnTriggerStay2D(Collider2D other)
     {
         if (other.tag == "Chest")
         {

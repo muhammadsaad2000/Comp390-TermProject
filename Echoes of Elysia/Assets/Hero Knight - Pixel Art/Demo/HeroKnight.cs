@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Components.HP;
 
 public class HeroKnight : MonoBehaviour {
 
@@ -37,6 +38,8 @@ public class HeroKnight : MonoBehaviour {
         m_wallSensorR2 = transform.Find("WallSensor_R2").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL1 = transform.Find("WallSensor_L1").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL2 = transform.Find("WallSensor_L2").GetComponent<Sensor_HeroKnight>();
+
+        GetComponent<HPStats>().OnDeath += OnDeath;
     }
 
     // Update is called once per frame
@@ -171,6 +174,22 @@ public class HeroKnight : MonoBehaviour {
                 if(m_delayToIdle < 0)
                     m_animator.SetInteger("AnimState", 0);
         }
+    }
+
+    public void TakeDamageAnim()
+    {
+        m_animator.SetTrigger("Hurt");
+    }
+
+    void OnDeath()
+    {
+        m_animator.SetBool("noBlood", m_noBlood);
+        m_animator.SetTrigger("Death");
+    }
+
+    void OnDestroy()
+    {
+        GetComponent<HPStats>().OnDeath -= OnDeath;
     }
 
     // Animation Events
