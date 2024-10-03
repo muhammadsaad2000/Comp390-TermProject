@@ -36,6 +36,14 @@ namespace Components.HP
                 return;
             }
             popUpText.text = damage.ToString();
+            if (damage > 0)
+            {
+                popUpText.color = Color.red;
+            }
+            else if (damage == 0)
+            {
+                popUpText.color = Color.gray;
+            }
             Instantiate(floatingCombatText, transform.position, Quaternion.identity);
             //Debug.Log($"{gameObject.name} is taking damage {damage}");
             var remainingDamage = damage;

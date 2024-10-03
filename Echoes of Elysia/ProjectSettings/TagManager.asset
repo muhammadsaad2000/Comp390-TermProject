@@ -7,6 +7,7 @@ TagManager:
   - Chest
   - Spikes
   - Checkpoint
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -15,8 +16,8 @@ TagManager:
   - Water
   - UI
   - 
-  - 
-  - 
+  - Player
+  - Enemy
   - 
   - 
   - 
