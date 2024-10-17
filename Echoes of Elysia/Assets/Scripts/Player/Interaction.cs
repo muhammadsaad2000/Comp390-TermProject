@@ -6,11 +6,17 @@ using Components.HP;
 
 public class Interaction : MonoBehaviour
 {
+    AudioManager audioManager;
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
     void OnCollisionEnter2D(Collision2D collision)
     {
         HPStats hp = GetComponent<HPStats>();
         if (collision.gameObject.tag == "Spikes"){
             Debug.Log("Ouch!");
+            audioManager.PlaySFX(audioManager.hurt);
             GetComponent<HeroKnight>().TakeDamageAnim();
             hp.TakeDamage(10);
         }
@@ -25,6 +31,7 @@ public class Interaction : MonoBehaviour
                 if (Input.GetKey("e"))
                 {               
                     Debug.Log("Open!");
+                    audioManager.PlaySFX(audioManager.chest);
                     other.gameObject.GetComponent<Chest>().Open();
                 }
             }

@@ -7,8 +7,15 @@ using UnityEngine.UI;
 
 namespace Components.HP
 {
+
     public class HPStats : MonoBehaviour
     {
+        AudioManager audioManager;
+        private void Awake()
+        {
+            audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        }
+
         float currHP;
         public float maxHealth;
         public bool isAlive;
@@ -28,16 +35,24 @@ namespace Components.HP
             currHP = maxHealth;
         }
 
+        public void QuitGame()
+        {
+            audioManager.PlaySFX(audioManager.buttons);
+            Application.Quit();
+        }
+
         public virtual void TakeDamage(int damage)
         {
             if (!isAlive)
             {
                 Debug.Log($"{gameObject.name} taking damage but it is dead!");
+                QuitGame();
                 return;
             }
             popUpText.text = damage.ToString();
             if (damage > 0)
             {
+                audioManager.PlaySFX(audioManager.hurt);
                 popUpText.color = Color.red;
             }
             else if (damage == 0)
@@ -52,6 +67,7 @@ namespace Components.HP
 
             if (currHP <= 0 && isAlive)
             {
+                audioManager.PlaySFX(audioManager.death);
                 Death();
                 isAlive = false;
             }

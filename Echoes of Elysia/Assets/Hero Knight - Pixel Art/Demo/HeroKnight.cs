@@ -4,6 +4,11 @@ using Components.HP;
 
 public class HeroKnight : MonoBehaviour
 {
+    AudioManager audioManager;
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     [SerializeField] float m_speed = 4.0f;
     [SerializeField] float m_jumpForce = 7.5f;
@@ -82,6 +87,7 @@ public class HeroKnight : MonoBehaviour
         // Swap direction of sprite depending on walk direction
         if (inputX > 0)
         {
+           
             GetComponent<SpriteRenderer>().flipX = false;
             m_facingDirection = 1;
             m_attackPoint.localPosition = attackPointFront;
@@ -89,6 +95,7 @@ public class HeroKnight : MonoBehaviour
 
         else if (inputX < 0)
         {
+            
             GetComponent<SpriteRenderer>().flipX = true;
             m_facingDirection = -1;
             m_attackPoint.localPosition = attackPointBack;
@@ -96,7 +103,10 @@ public class HeroKnight : MonoBehaviour
 
         // Move
         if (!m_rolling)
+        {
             m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
+        }
+            
 
         //Set AirSpeed in animator
         m_animator.SetFloat("AirSpeedY", m_body2d.velocity.y);
@@ -120,6 +130,7 @@ public class HeroKnight : MonoBehaviour
         //Attack
         else if (Input.GetMouseButtonDown(0) && m_timeSinceAttack > 0.25f && !m_rolling)
         {
+            audioManager.PlaySFX(audioManager.attack);
             m_currentAttack++;
 
             // Loop back to one after third attack
@@ -140,6 +151,7 @@ public class HeroKnight : MonoBehaviour
         // Block
         else if (Input.GetMouseButtonDown(1) && !m_rolling)
         {
+            audioManager.PlaySFX(audioManager.block);
             m_animator.SetTrigger("Block");
             m_animator.SetBool("IdleBlock", true);
             isShielded = true;
@@ -154,6 +166,7 @@ public class HeroKnight : MonoBehaviour
         // Roll
         else if (Input.GetKeyDown("left shift") && !m_rolling && !m_isWallSliding)
         {
+            audioManager.PlaySFX(audioManager.roll);
             m_rolling = true;
             m_animator.SetTrigger("Roll");
             m_body2d.velocity = new Vector2(m_facingDirection * m_rollForce, m_body2d.velocity.y);
@@ -163,6 +176,7 @@ public class HeroKnight : MonoBehaviour
         //Jump
         else if (Input.GetKeyDown("space") && m_grounded && !m_rolling)
         {
+            audioManager.PlaySFX(audioManager.jump);
             m_animator.SetTrigger("Jump");
             m_grounded = false;
             m_animator.SetBool("Grounded", m_grounded);

@@ -7,6 +7,12 @@ using Cainos.PixelArtPlatformer_VillageProps;
 
 public class MeleeAttack : MonoBehaviour
 {
+    AudioManager audioManager;
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     [SerializeField] int attackDmg = 10;
 
     [SerializeField] float attackCooldown = 1f;  // Cooldown period between attacks
