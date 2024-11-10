@@ -17,6 +17,8 @@ public class HeroKnight : MonoBehaviour
     [SerializeField] GameObject m_slideDust;
     [SerializeField] Transform m_attackPoint;
 
+    public InventoryObject inventory;
+
     private Animator m_animator;
     private Rigidbody2D m_body2d;
     private Sensor_HeroKnight m_groundSensor;
@@ -236,5 +238,10 @@ public class HeroKnight : MonoBehaviour
             // Turn arrow in correct direction
             dust.transform.localScale = new Vector3(m_facingDirection, 1, 1);
         }
+    }
+
+    private void OnApplicationQuit()
+    {
+        inventory.Container.Clear();
     }
 }

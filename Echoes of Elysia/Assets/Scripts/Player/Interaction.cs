@@ -11,6 +11,7 @@ public class Interaction : MonoBehaviour
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         HPStats hp = GetComponent<HPStats>();
@@ -35,6 +36,17 @@ public class Interaction : MonoBehaviour
                     other.gameObject.GetComponent<Chest>().Open();
                 }
             }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        var item = collision.GetComponent<Item>();
+
+        if (item)
+        {
+            GetComponent<HeroKnight>().inventory.AddItem(item.item, 1);
+            Destroy(collision.gameObject);
         }
     }
 }

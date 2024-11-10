@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 814d881d1d8ccdd4a9e56c550ac8a4fa, type: 3}
+  m_Name: MagicalSword
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 236337342567781385, guid: 74b26176e8d16ed47b425f86f9dccaea, type: 3}
+  type: 1
+  description: Equip this Magical Sword to do 10 additional DMG!
+  atkBonus: 10
+  defBonus: 0
