@@ -45,6 +45,7 @@ public class Interaction : MonoBehaviour
 
         if (item)
         {
+            Debug.Log(item.ToString() + "collected!");
             GetComponent<HeroKnight>().inventory.AddItem(item.item, 1);
             Destroy(collision.gameObject);
         }

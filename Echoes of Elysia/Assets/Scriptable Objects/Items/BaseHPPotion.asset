@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc7cd11f5a884404387aeb04017bb6d7, type: 3}
   m_Name: BaseHPPotion
   m_EditorClassIdentifier: 
-  prefab: {fileID: 6737098987845956518, guid: 84331e012566d1d458c9805d339465fe, type: 3}
+  prefab: {fileID: 1790798642415087844, guid: 63129fe92683d554e9be8cb0d1d0f560, type: 3}
   type: 2
   description: Drink Base HP Potion to restore 10 HP Value!
   restoreHPValue: 10

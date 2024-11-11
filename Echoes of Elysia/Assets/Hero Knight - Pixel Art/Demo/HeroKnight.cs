@@ -202,6 +202,18 @@ public class HeroKnight : MonoBehaviour
             if (m_delayToIdle < 0)
                 m_animator.SetInteger("AnimState", 0);
         }
+
+
+
+        // Save and Load Inventory
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            inventory.Save();
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            inventory.Load();
+        }
     }
 
     public void TakeDamageAnim()
