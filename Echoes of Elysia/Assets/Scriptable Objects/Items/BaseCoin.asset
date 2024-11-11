@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8760c3c15d03a794c8061d7493f61991, type: 3}
   m_Name: BaseCoin
   m_EditorClassIdentifier: 
-  prefab: {fileID: 6298571036117098584, guid: 3f933a07b2f06dd4b91683977d8e45bd, type: 3}
+  Id: 0
+  uiDisplay: {fileID: 21300000, guid: d2c0dc76eca05bb4eb4f3fc4a37f258d, type: 3}
   type: 0
   description: Collect Base Coin for +1 Coins!
   addCoin: 1

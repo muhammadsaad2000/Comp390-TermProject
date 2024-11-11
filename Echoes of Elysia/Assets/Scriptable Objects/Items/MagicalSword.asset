@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 814d881d1d8ccdd4a9e56c550ac8a4fa, type: 3}
   m_Name: MagicalSword
   m_EditorClassIdentifier: 
-  prefab: {fileID: 578728653035050439, guid: 921c10e5976671440b58321ec91f9137, type: 3}
+  Id: 2
+  uiDisplay: {fileID: 21300000, guid: b2f3327f47464544293b6b9018e1296e, type: 3}
   type: 1
   description: Equip this Magical Sword to do 10 additional DMG!
   atkBonus: 10

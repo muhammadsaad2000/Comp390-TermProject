@@ -41,12 +41,12 @@ public class Interaction : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        var item = collision.GetComponent<Item>();
+        var item = collision.GetComponent<GroundItem>();
 
         if (item)
         {
             Debug.Log(item.ToString() + "collected!");
-            GetComponent<HeroKnight>().inventory.AddItem(item.item, 1);
+            GetComponent<HeroKnight>().inventory.AddItem(new Item(item.item), 1);
             Destroy(collision.gameObject);
         }
     }
