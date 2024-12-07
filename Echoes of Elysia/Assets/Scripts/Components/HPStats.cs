@@ -73,6 +73,21 @@ namespace Components.HP
             }
         }
 
+        public virtual void Heal(int healPoints)
+        {
+            popUpText.text = healPoints.ToString();
+            popUpText.color = Color.green;
+
+            Instantiate(floatingCombatText, transform.position, Quaternion.identity);
+
+            currHP += healPoints;
+
+            if (currHP > maxHealth)
+            {
+                currHP = maxHealth;
+            }
+        }
+
         public virtual void Update()
         {
             UpdateHealthUI();

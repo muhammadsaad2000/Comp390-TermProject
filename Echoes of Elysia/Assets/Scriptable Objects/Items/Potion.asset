@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 814d881d1d8ccdd4a9e56c550ac8a4fa, type: 3}
-  m_Name: MagicalSword
+  m_Script: {fileID: 11500000, guid: d61be67dea4642940929951897548a9e, type: 3}
+  m_Name: Potion
   m_EditorClassIdentifier: 
-  Id: 2
-  uiDisplay: {fileID: 21300000, guid: b2f3327f47464544293b6b9018e1296e, type: 3}
-  type: 1
-  description: Equip this Magical Sword to do 10 additional DMG!
-  atkBonus: 10
-  defBonus: 0
+  uiDisplay: {fileID: 21300000, guid: db005d11213e5da47b9769c2e6c56eee, type: 3}
+  stackable: 0
+  type: 2
+  description: 
+  data:
+    Name: Potion
+    Id: 0

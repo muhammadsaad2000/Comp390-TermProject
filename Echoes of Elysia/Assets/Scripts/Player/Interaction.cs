@@ -41,13 +41,35 @@ public class Interaction : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        var item = collision.GetComponent<GroundItem>();
+        var groundItem = collision.GetComponent<GroundItem>();
 
-        if (item)
+        if (groundItem != null)
         {
-            Debug.Log(item.ToString() + "collected!");
-            GetComponent<HeroKnight>().inventory.AddItem(new Item(item.item), 1);
-            Destroy(collision.gameObject);
+            InventorySlot playerSlot = GetComponent<HeroKnight>().inventory.FindItemOnInventory(groundItem.item.data);
+
+            if (playerSlot == null)
+            {
+                GetComponent<HeroKnight>().inventory.AddItem(groundItem.item.data, 1);
+                Debug.Log(groundItem.ToString() + "collected!");
+                Destroy(collision.gameObject);
+            }
+            else
+            {
+                playerSlot.AddAmount(1);
+                Debug.Log(groundItem.ToString() + "collected!");
+                Destroy(collision.gameObject);
+            }
         }
+
+        /*if (groundItem)
+        {
+            Item _item = new Item(groundItem.item);
+            if (GetComponent<HeroKnight>().inventory.AddItem(_item, 1))
+            {
+                Debug.Log(groundItem.ToString() + "collected!");
+                Destroy(collision.gameObject);
+            }
+        }*/
+
     }
 }

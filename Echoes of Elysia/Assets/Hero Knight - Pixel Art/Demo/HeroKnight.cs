@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Components.HP;
+using UnityEngine.EventSystems;
 
 public class HeroKnight : MonoBehaviour
 {
@@ -118,6 +119,45 @@ public class HeroKnight : MonoBehaviour
         m_isWallSliding = (m_wallSensorR1.State() && m_wallSensorR2.State()) || (m_wallSensorL1.State() && m_wallSensorL2.State());
         m_animator.SetBool("WallSlide", m_isWallSliding);
 
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            //Attack
+            if (Input.GetMouseButtonDown(0) && m_timeSinceAttack > 0.25f && !m_rolling)
+            {
+                audioManager.PlaySFX(audioManager.attack);
+                m_currentAttack++;
+
+                // Loop back to one after third attack
+                if (m_currentAttack > 3)
+                    m_currentAttack = 1;
+
+                // Reset Attack combo if time since last attack is too large
+                if (m_timeSinceAttack > 1.0f)
+                    m_currentAttack = 1;
+
+                // Call one of three attack animations "Attack1", "Attack2", "Attack3"
+                m_animator.SetTrigger("Attack" + m_currentAttack);
+
+                // Reset timer
+                m_timeSinceAttack = 0.0f;
+            }
+
+            // Block
+            else if (Input.GetMouseButtonDown(1) && !m_rolling)
+            {
+                audioManager.PlaySFX(audioManager.block);
+                m_animator.SetTrigger("Block");
+                m_animator.SetBool("IdleBlock", true);
+                isShielded = true;
+            }
+
+            else if (Input.GetMouseButtonUp(1))
+            {
+                m_animator.SetBool("IdleBlock", false);
+                isShielded = false;
+            }
+        }
+
         //Death
         if (Input.GetKeyDown("t") && !m_rolling)
         {
@@ -127,43 +167,7 @@ public class HeroKnight : MonoBehaviour
 
         //Hurt
         else if (Input.GetKeyDown("q") && !m_rolling)
-            m_animator.SetTrigger("Hurt");
-
-        //Attack
-        else if (Input.GetMouseButtonDown(0) && m_timeSinceAttack > 0.25f && !m_rolling)
-        {
-            audioManager.PlaySFX(audioManager.attack);
-            m_currentAttack++;
-
-            // Loop back to one after third attack
-            if (m_currentAttack > 3)
-                m_currentAttack = 1;
-
-            // Reset Attack combo if time since last attack is too large
-            if (m_timeSinceAttack > 1.0f)
-                m_currentAttack = 1;
-
-            // Call one of three attack animations "Attack1", "Attack2", "Attack3"
-            m_animator.SetTrigger("Attack" + m_currentAttack);
-
-            // Reset timer
-            m_timeSinceAttack = 0.0f;
-        }
-
-        // Block
-        else if (Input.GetMouseButtonDown(1) && !m_rolling)
-        {
-            audioManager.PlaySFX(audioManager.block);
-            m_animator.SetTrigger("Block");
-            m_animator.SetBool("IdleBlock", true);
-            isShielded = true;
-        }
-
-        else if (Input.GetMouseButtonUp(1))
-        {
-            m_animator.SetBool("IdleBlock", false);
-            isShielded = false;
-        }
+            m_animator.SetTrigger("Hurt");              
 
         // Roll
         else if (Input.GetKeyDown("left shift") && !m_rolling && !m_isWallSliding)
@@ -254,6 +258,6 @@ public class HeroKnight : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        inventory.Container.Items.Clear();
+        inventory.Clear();
     }
 }
