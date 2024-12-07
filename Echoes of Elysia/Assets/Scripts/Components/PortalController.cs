@@ -1,51 +1,93 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PortalController : MonoBehaviour
 {
-    public Transform destination; // Assign the other portal's Transform in the Inspector
-    GameObject player;
-    Rigidbody2D playerRb;
+    public Transform destination; // Assign the destination portal in the Inspector
+    private GameObject player;
+    private Rigidbody2D playerRb;
+    private bool canTeleport = true; // Prevent immediate re-teleportation
+    private PortalController destinationPortal; // Reference to the destination portal's script
 
     private void Awake()
     {
-        // Ensure you get the first player if there are multiple tagged objects
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         if (players.Length > 0)
         {
-            player = players[0]; // Assign the first player in the array
+            player = players[0];
+            playerRb = player.GetComponent<Rigidbody2D>();
+            if (playerRb == null)
+            {
+                Debug.LogError("No Rigidbody2D found on player!");
+            }
         }
         else
         {
-            Debug.LogWarning("No GameObject with the tag 'Player' found.");
+            Debug.LogWarning("No player found with the tag 'Player'.");
         }
 
-        playerRb = GetComponent<Rigidbody2D>();
+        if (destination != null)
+        {
+            Debug.Log("Destination portal for " + gameObject.name + " is: " + destination.name);
+            destinationPortal = destination.GetComponent<PortalController>();
+        }
+        else
+        {
+            Debug.LogError("Destination not assigned for portal: " + gameObject.name);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.gameObject == player && canTeleport)
         {
-            // Check if the player is not already at the destination to avoid immediate re-teleportation
-            if (Vector2.Distance(player.transform.position, destination.position) > 0.3f)
+            Debug.Log("Player entered portal: " + gameObject.name);
+
+            if (destination != null)
             {
-                player.transform.position = destination.position; // Teleport to the destination portal
-                playerRb.velocity = Vector2.zero;
+                StartCoroutine(TeleportPlayer());
+            }
+            else
+            {
+                Debug.LogError("Destination is not assigned for portal: " + gameObject.name);
             }
         }
     }
 
-    IEnumerator MoveInPortal ()
+    private IEnumerator TeleportPlayer()
     {
-        float timer = 0;
-        while (timer < 0.5f)
+        canTeleport = false;
+
+        // Disable the destination portal temporarily to prevent immediate re-triggering
+        if (destinationPortal != null)
         {
-            player.transform.position = Vector2.MoveTowards(player.transform.position, transform.position, 3 * Time.deltaTime);
-            yield return new WaitForEndOfFrame();
-            timer += Time.deltaTime;
+            destinationPortal.DisableTeleport();
         }
+
+        // Reset velocity to prevent unintended motion
+        if (playerRb != null)
+        {
+            playerRb.velocity = Vector2.zero;
+        }
+
+        // Teleport the player to the destination
+        player.transform.position = destination.position + new Vector3(0, 0.1f, 0); // Slightly above ground
+        Debug.Log("Player teleported to: " + destination.name);
+
+        // Wait for a cooldown before this portal can be used again
+        yield return new WaitForSeconds(3f);
+        canTeleport = true;
     }
 
+    public void DisableTeleport()
+    {
+        StartCoroutine(DisableTeleportCoroutine());
+    }
+
+    private IEnumerator DisableTeleportCoroutine()
+    {
+        canTeleport = false;
+        yield return new WaitForSeconds(3f); // Match the cooldown time
+        canTeleport = true;
+    }
 }
